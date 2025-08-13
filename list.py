@@ -53,7 +53,7 @@ if __name__ == "__main__":
         {
             'part': 'snippet,contentDetails,status',
             'playlistId': PLAYLIST_ID,
-            'maxResults': 50  
+            'maxResults': 50 
         }
     ):
         video_id = video_item['contentDetails']['videoId']
@@ -67,7 +67,7 @@ if __name__ == "__main__":
         ):
             data = format_video(video)
             logging.info(f"📤 Sending video: {data['title']}")
-            producer.send('youtube_videos', value=data, key=video_id)
+            producer.send('youtube_videoss', value=data, key=video_id)
             count += 1
 
     producer.flush() 
