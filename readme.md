@@ -1,40 +1,41 @@
-# YouTube Analytics Pipeline
 
-Stream YouTube video metrics into Kafka and process them with ksqlDB, with optional delivery to Slack via Kafka Connect HTTP Sink.
+# Pipeline d'analytique YouTube (FR)
 
-## Overview
-* __Producers__: Python scripts (`list.py`, `youtubeanalytic.py`) fetch video stats from the YouTube Data API and publish to Kafka topic `youtube_videos`.
-* __Kafka Stack__: Zookeeper, Kafka Broker, Schema Registry, Kafka Connect, ksqlDB Server, and Confluent Control Center are defined in `docker-compose.yaml`.
-* __Stream Processing__: ksqlDB streams/tables defined in `ksql/create-stream-table.md` compute metric deltas and format messages.
-* __Sinks__: Example Slack HTTP sink via Kafka Connect reads from `slack_output`.
+Diffusez les métriques des vidéos YouTube dans Kafka et traitez-les avec ksqlDB, avec en option l'envoi vers Slack via le connecteur HTTP de Kafka Connect.
 
-## Repository Structure
-* `docker-compose.yaml` – Confluent Platform services.
-* `constants.py` – Reads API/config values from `config/config.local`.
-* `list.py` – Publishes playlist videos’ metrics to Kafka (`youtube_videos`).
-* `youtubeanalytic.py` – Publishes a single video’s metrics to Kafka.
-* `ksql/create-stream-table.md` – ksqlDB SQL to create streams/tables and example Slack sink config.
-* `connectors/` – Custom/Kafka Connect plugins mount point.
-* `requirement.txt` – Python dependencies.
+## Vue d'ensemble
+* __Producteurs__: Scripts Python (`list.py`, `youtubeanalytic.py`) qui récupèrent les statistiques via l'API YouTube Data et publient dans le topic Kafka `youtube_videos`.
+* __Pile Kafka__: Zookeeper, Broker Kafka, Schema Registry, Kafka Connect, ksqlDB Server et Confluent Control Center sont définis dans `docker-compose.yaml`.
+* __Traitement de flux__: Les streams/tables ksqlDB définis dans `ksql/create-stream-table.md` calculent les deltas de métriques et formatent les messages.
+* __Sorties__: Exemple de sink HTTP Slack via Kafka Connect lisant depuis `slack_output`.
 
-## Prerequisites
-* Docker and Docker Compose
+## Structure du dépôt
+* `docker-compose.yaml` – Services Confluent Platform.
+* `constants.py` – Lit les valeurs de config/clé API depuis `config/config.local`.
+* `list.py` – Publie les métriques des vidéos d'une playlist vers Kafka (`youtube_videos`).
+* `youtubeanalytic.py` – Publie les métriques d'une seule vidéo vers Kafka.
+* `ksql/create-stream-table.md` – SQL ksqlDB pour créer les streams/tables + exemple de config du sink Slack.
+* `connectors/` – Point de montage des plugins personnalisés pour Kafka Connect.
+* `requirement.txt` – Dépendances Python.
+
+## Prérequis
+* Docker et Docker Compose
 * Python 3.10+
-* A YouTube Data API key
+* Une clé API YouTube Data
 
 ## Configuration
-Create `config/config.local` with your API key and IDs:
+Créez `config/config.local` avec votre clé API et vos identifiants :
 
 ```ini
 [youtube]
-API_KEY = <YOUR_YOUTUBE_API_KEY>
-PLAYLIST_ID = <OPTIONAL_PLAYLIST_ID>
-VIDEO_ID = <OPTIONAL_VIDEO_ID>
+API_KEY = <VOTRE_CLE_API_YOUTUBE>
+PLAYLIST_ID = <PLAYLIST_ID_OPTIONNEL>
+VIDEO_ID = <VIDEO_ID_OPTIONNEL>
 ```
 
-`constants.py` loads these values to be used by the producers.
+`constants.py` charge ces valeurs pour les producteurs.
 
-## Install Python dependencies
+## Installer les dépendances Python
 
 ```bash
 python -m venv .venv
@@ -42,53 +43,53 @@ source .venv/bin/activate
 pip install -r requirement.txt
 ```
 
-## Start the Kafka stack
+## Démarrer la pile Kafka
 
 ```bash
 docker compose up -d
 ```
 
-Services (default ports):
-* __Kafka Broker__: 9092 (host), 29092 (internal)
-* __Zookeeper__: 2181
-* __Schema Registry__: 8081
-* __Kafka Connect__: 8083
-* __ksqlDB Server__: 8088
-* __Control Center__: 9021 (UI at http://localhost:9021)
+Services (ports par défaut) :
+* __Broker Kafka__ : 9092 (hôte), 29092 (interne)
+* __Zookeeper__ : 2181
+* __Schema Registry__ : 8081
+* __Kafka Connect__ : 8083
+* __ksqlDB Server__ : 8088
+* __Control Center__ : 9021 (UI: http://localhost:9021)
 
-Wait for health checks to pass (a minute or two). You can verify via Control Center.
+Patientez jusqu'à ce que les healthchecks passent (1 à 2 minutes). Vous pouvez vérifier via Control Center.
 
-## ksqlDB: Create streams and tables
-Use the SQL in `ksql/create-stream-table.md`. Notes:
-* __Use straight quotes__ `'` in SQL (avoid curly quotes copied from docs).
-* Ensure the source topic `youtube_videos` exists (the producers will create it by sending messages).
+## ksqlDB : Créer les streams et tables
+Utilisez le SQL dans `ksql/create-stream-table.md`. Notes :
+* __Utilisez des apostrophes droites__ `'` dans le SQL (évitez les guillemets typographiques copiés depuis des docs).
+* Assurez-vous que le topic source `youtube_videos` existe (les producteurs le créeront en envoyant des messages).
 
-Common flow defined in the doc:
+Flux standard défini dans le document :
 * `youtube_videos` stream (JSON)
-* `youtube_analytics_changes` table (latest two measurements per video)
-* `youtube_analytics_change_stream_base` stream (over the table changelog)
-* `youtube_analytics_change_stream` derived stream with formatted text and filters
-* `slack_output` stream (Avro) for the Slack sink
+* `youtube_analytics_changes` table (deux dernières mesures par vidéo)
+* `youtube_analytics_change_stream_base` stream (sur le changelog de la table)
+* `youtube_analytics_change_stream` stream dérivé avec texte formaté et filtres
+* `slack_output` stream (Avro) pour le sink Slack
 
-## Run the producers
-With the stack up and `config/config.local` set:
+## Exécuter les producteurs
+Avec la pile démarrée et `config/config.local` renseigné :
 
-- __Publish a single video’s metrics__
+- __Publier les métriques d'une seule vidéo__
 
   ```bash
   python youtubeanalytic.py
   ```
 
-- __Publish metrics for all items in a playlist__
+- __Publier les métriques pour tous les éléments d'une playlist__
 
   ```bash
   python list.py
   ```
 
-Both scripts send JSON messages to Kafka topic `youtube_videos` with key = `video_id` (in `list.py`).
+Les deux scripts envoient des messages JSON vers le topic Kafka `youtube_videos` avec la clé = `video_id` (dans `list.py`).
 
-## Optional: Slack HTTP Sink via Kafka Connect
-An example connector config is included at the bottom of `ksql/create-stream-table.md`. Post it to Kafka Connect once topics/streams exist and you have a Slack webhook URL:
+## Optionnel : Sink HTTP Slack via Kafka Connect
+Un exemple de configuration de connecteur est inclus en bas de `ksql/create-stream-table.md`. Envoyez-le à Kafka Connect une fois que les topics/streams existent et que vous avez une URL de webhook Slack :
 
 ```bash
 curl -X PUT \
@@ -97,14 +98,10 @@ curl -X PUT \
   http://localhost:8083/connectors/slack_/config
 ```
 
-Where `connector.json` matches the example (update `http.api.url`). Ensure the connector reads from `slack_output` and uses a transform to rename `TEXT` -> `text`.
+Où `connector.json` correspond à l'exemple (mettez à jour `http.api.url`). Assurez-vous que le connecteur lit depuis `slack_output` et applique une transformation pour renommer `TEXT` -> `text`.
 
 ## Topics
-* `youtube_videos` – input from producers (JSON)
-* `youtube_analytics_changes` – table changelog (JSON)
-* `youtube_analytics_change_stream` – filtered/pretty text (JSON)
-* `slack_output` – final sink (Avro)
-
-
-
-
+* `youtube_videos` – entrée des producteurs (JSON)
+* `youtube_analytics_changes` – changelog de la table (JSON)
+* `youtube_analytics_change_stream` – texte formaté/filtré (JSON)
+* `slack_output` – sink final (Avro)
