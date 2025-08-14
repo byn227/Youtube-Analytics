@@ -107,4 +107,4 @@ Où `connector.json` correspond à l'exemple (mettez à jour `http.api.url`). As
 * `slack_output` – sink final (Avro)
 
 ## Résultat:
-![alt text](assets/image.png)
+![alt text](assets/result.png)

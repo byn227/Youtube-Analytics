@@ -126,3 +126,5 @@ Le connecteur doit lire depuis `slack_output` et renommer le champ Avro `TEXT` e
   "transforms.rename.renames": "TEXT:text"
 }
 ```
+##Flow
+![alt text](assets/flow.png)
