@@ -105,3 +105,6 @@ Où `connector.json` correspond à l'exemple (mettez à jour `http.api.url`). As
 * `youtube_analytics_changes` – changelog de la table (JSON)
 * `youtube_analytics_change_stream` – texte formaté/filtré (JSON)
 * `slack_output` – sink final (Avro)
+
+## Résultat:
+![alt text](assets/image.png)
