@@ -72,7 +72,7 @@ WITH (
 SELECT
   video_id,
   CONCAT(
-    'Video ', CAST(video_id AS STRING), ' | ',
+    'Video: ', CAST(title AS STRING), ' | ',
     title, ' | views: ', CAST(views_prev AS STRING), ' -> ', CAST(views_curr AS STRING),
     ' | likes: ', CAST(likes_prev AS STRING), ' -> ', CAST(likes_curr AS STRING),
     ' | favorites: ', CAST(favorites_prev AS STRING), ' -> ', CAST(favorites_curr AS STRING)
@@ -126,6 +126,6 @@ Le connecteur doit lire depuis `slack_output` et renommer le champ Avro `TEXT` e
   "transforms.rename.renames": "TEXT:text"
 }
 ```
-##Flow
+## 8) Flow
 
 ![alt text](/assets/flow.png)
