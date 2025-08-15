@@ -1,5 +1,5 @@
 
-# ksqlDB: Flux et Tables pour l'analytique YouTube (FR)
+# ksqlDB: Flux et Tables pour l'analytique YouTube
 
 Ce document décrit les artefacts ksqlDB utilisés pour ingérer des instantanés des vidéos YouTube, calculer les changements, et produire des messages formatés vers Slack.
 
@@ -127,4 +127,5 @@ Le connecteur doit lire depuis `slack_output` et renommer le champ Avro `TEXT` e
 }
 ```
 ##Flow
-![alt text](assets/flow.png)
+
+![alt text](/assets/flow.png)

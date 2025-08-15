@@ -1,5 +1,5 @@
 
-# Pipeline d'analytique YouTube (FR)
+# Pipeline d'analytique YouTube
 
 Diffusez les métriques des vidéos YouTube dans Kafka et traitez-les avec ksqlDB, avec en option l'envoi vers Slack via le connecteur HTTP de Kafka Connect.
 
@@ -8,6 +8,10 @@ Diffusez les métriques des vidéos YouTube dans Kafka et traitez-les avec ksqlD
 * __Pile Kafka__: Zookeeper, Broker Kafka, Schema Registry, Kafka Connect, ksqlDB Server et Confluent Control Center sont définis dans `docker-compose.yaml`.
 * __Traitement de flux__: Les streams/tables ksqlDB définis dans `ksql/create-stream-table.md` calculent les deltas de métriques et formatent les messages.
 * __Sorties__: Exemple de sink HTTP Slack via Kafka Connect lisant depuis `slack_output`.
+
+## Architecture
+
+![alt text](assets/archi.png)
 
 ## Structure du dépôt
 * `docker-compose.yaml` – Services Confluent Platform.
@@ -61,7 +65,6 @@ Patientez jusqu'à ce que les healthchecks passent (1 à 2 minutes). Vous pouvez
 
 ## ksqlDB : Créer les streams et tables
 Utilisez le SQL dans `ksql/create-stream-table.md`. Notes :
-* __Utilisez des apostrophes droites__ `'` dans le SQL (évitez les guillemets typographiques copiés depuis des docs).
 * Assurez-vous que le topic source `youtube_videos` existe (les producteurs le créeront en envoyant des messages).
 
 Flux standard défini dans le document :
@@ -77,13 +80,13 @@ Avec la pile démarrée et `config/config.local` renseigné :
 - __Publier les métriques d'une seule vidéo__
 
   ```bash
-  python youtubeanalytic.py
+  python3 youtubeanalytic.py
   ```
 
 - __Publier les métriques pour tous les éléments d'une playlist__
 
   ```bash
-  python list.py
+  python3 list.py
   ```
 
 Les deux scripts envoient des messages JSON vers le topic Kafka `youtube_videos` avec la clé = `video_id` (dans `list.py`).
@@ -106,5 +109,6 @@ Où `connector.json` correspond à l'exemple (mettez à jour `http.api.url`). As
 * `youtube_analytics_change_stream` – texte formaté/filtré (JSON)
 * `slack_output` – sink final (Avro)
 
-## Résultat:
+## Résultat
+Sur Slack, on a un bot qui va envoyer des messages.
 ![alt text](assets/result.png)
