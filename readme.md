@@ -91,7 +91,7 @@ Avec la pile démarrée et `config/config.local` renseigné :
 
 Les deux scripts envoient des messages JSON vers le topic Kafka `youtube_videos` avec la clé = `video_id` (dans `list.py`).
 
-## Optionnel : Sink HTTP Slack via Kafka Connect
+## Sink HTTP Slack via Kafka Connect
 Un exemple de configuration de connecteur est inclus en bas de `ksql/create-stream-table.md`. Envoyez-le à Kafka Connect une fois que les topics/streams existent et que vous avez une URL de webhook Slack :
 
 ```bash
