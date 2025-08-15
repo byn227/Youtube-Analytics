@@ -64,6 +64,11 @@ Services (ports par défaut) :
 Patientez jusqu'à ce que les healthchecks passent (1 à 2 minutes). Vous pouvez vérifier via Control Center.
 
 ## ksqlDB : Créer les streams et tables
+Pour tous les détails ksqlDB, consultez :
+
+- [Guide ksqlDB pas-à-pas](ksql/readme.md)
+- [SQL complet pour créer streams/tables + config Slack](ksql/create-stream-table.md)
+
 Utilisez le SQL dans `ksql/create-stream-table.md`. Notes :
 * Assurez-vous que le topic source `youtube_videos` existe (les producteurs le créeront en envoyant des messages).
 
