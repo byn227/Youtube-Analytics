@@ -4,8 +4,6 @@
 Ce document décrit les artefacts ksqlDB utilisés pour ingérer des instantanés des vidéos YouTube, calculer les changements, et produire des messages formatés vers Slack.
 
 Notes:
-- Utilisez toujours des apostrophes droites ' et évitez les guillemets typographiques.
-- Évitez les virgules finales dans les listes de colonnes.
 - Pour rejouer l'historique: `SET 'auto.offset.reset'='earliest';`. Pour ne traiter que les nouveaux messages: `latest`.
 
 ## 1) Stream source: `youtube_videos`
@@ -103,7 +101,7 @@ SELECT
 FROM youtube_analytics_change_stream;
 ```
 
-## 7) Kafka Connect HTTP Sink (Slack) – exemple de configuration
+## 7) Kafka Connect HTTP Sink (Slack) 
 Le connecteur doit lire depuis `slack_output` et renommer le champ Avro `TEXT` en champ JSON `text` attendu par Slack. Le corps envoyé sera `{ "text": "..." }`.
 
 ```json

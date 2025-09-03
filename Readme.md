@@ -1,13 +1,30 @@
 
 # Pipeline d'analytique YouTube
 
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
+![certifi](https://img.shields.io/badge/certifi-2025.8.3-brightgreen)
+![charset-normalizer](https://img.shields.io/badge/charset--normalizer-3.2.0-yellowgreen)
+![configparser](https://img.shields.io/badge/configparser-6.0.0-lightgrey)
+![kafka-python](https://img.shields.io/badge/kafka--python-2.2.15-orange)
+![requests](https://img.shields.io/badge/requests-2.32.4-blue)
+![urllib3](https://img.shields.io/badge/urllib3-2.5.0-yellow)
+![Docker](https://img.shields.io/badge/Docker-Ready-blue)
+![Docker Compose](https://img.shields.io/badge/Compose-3.8-lightblue)
+![Zookeeper](https://img.shields.io/badge/Zookeeper-7.6.0-green)
+![Kafka Broker](https://img.shields.io/badge/Kafka%20Broker-7.6.0-orange)
+![Schema Registry](https://img.shields.io/badge/Schema%20Registry-7.6.0-yellow)
+![Control Center](https://img.shields.io/badge/Control%20Center-7.6.0-red)
+![Kafka Connect](https://img.shields.io/badge/Kafka%20Connect-7.6.0-lightgrey)
+![ksqlDB](https://img.shields.io/badge/ksqlDB-7.6.0-purple)
+
+
 Diffusez les métriques des vidéos YouTube dans Kafka et traitez-les avec ksqlDB, avec en option l'envoi vers Slack via le connecteur HTTP de Kafka Connect.
 
 ## Vue d'ensemble
 * __Producteurs__: Scripts Python (`list.py`, `youtubeanalytic.py`) qui récupèrent les statistiques via l'API YouTube Data et publient dans le topic Kafka `youtube_videos`.
 * __Pile Kafka__: Zookeeper, Broker Kafka, Schema Registry, Kafka Connect, ksqlDB Server et Confluent Control Center sont définis dans `docker-compose.yaml`.
 * __Traitement de flux__: Les streams/tables ksqlDB définis dans `ksql/create-stream-table.md` calculent les deltas de métriques et formatent les messages.
-* __Sorties__: Exemple de sink HTTP Slack via Kafka Connect lisant depuis `slack_output`.
+* __Sorties__: Le sink HTTP Slack via Kafka Connect lisant depuis `slack_output`.
 
 ## Architecture
 
@@ -15,10 +32,10 @@ Diffusez les métriques des vidéos YouTube dans Kafka et traitez-les avec ksqlD
 
 ## Structure du dépôt
 * `docker-compose.yaml` – Services Confluent Platform.
-* `constants.py` – Lit les valeurs de config/clé API depuis `config/config.local`.
+* `constants.py` – Lit les valeurs de config/clé API depuis `config/config.local`. Le config est privé
 * `list.py` – Publie les métriques des vidéos d'une playlist vers Kafka (`youtube_videos`).
 * `youtubeanalytic.py` – Publie les métriques d'une seule vidéo vers Kafka.
-* `ksql/create-stream-table.md` – SQL ksqlDB pour créer les streams/tables + exemple de config du sink Slack.
+* `ksql/create-stream-table.md` – SQL ksqlDB pour créer les streams/tables + le config du sink Slack.
 * `connectors/` – Point de montage des plugins personnalisés pour Kafka Connect.
 * `requirement.txt` – Dépendances Python.
 
@@ -61,15 +78,12 @@ Services (ports par défaut) :
 * __ksqlDB Server__ : 8088
 * __Control Center__ : 9021 (UI: http://localhost:9021)
 
-Patientez jusqu'à ce que les healthchecks passent (1 à 2 minutes). Vous pouvez vérifier via Control Center.
-
 ## ksqlDB : Créer les streams et tables
 Pour tous les détails ksqlDB, consultez :
 
 - [Guide ksqlDB pas-à-pas](ksql/readme.md)
 
-Utilisez le SQL dans `ksql/create-stream-table.md`. Notes :
-* Assurez-vous que le topic source `youtube_videos` existe (les producteurs le créeront en envoyant des messages).
+Utilisez le SQL dans `ksql/create-stream-table.md`. Le topic source `youtube_videos` doit exister (les producteurs le créeront en envoyant des messages).
 
 Flux standard défini dans le document :
 * `youtube_videos` stream (JSON)
@@ -96,16 +110,9 @@ Avec la pile démarrée et `config/config.local` renseigné :
 Les deux scripts envoient des messages JSON vers le topic Kafka `youtube_videos` avec la clé = `video_id` (dans `list.py`).
 
 ## Sink HTTP Slack via Kafka Connect
-Un exemple de configuration de connecteur est inclus en bas de `ksql/create-stream-table.md`. Envoyez-le à Kafka Connect une fois que les topics/streams existent et que vous avez une URL de webhook Slack :
+La configuration de connecteur est inclus en bas de `ksql/create-stream-table.md`. Envoyez-le à Kafka Connect une fois que les topics/streams existent et que vous avez une URL de webhook Slack.
 
-```bash
-curl -X PUT \
-  -H 'Content-Type: application/json' \
-  --data @connector.json \
-  http://localhost:8083/connectors/slack_/config
-```
-
-Où `connector.json` correspond à l'exemple (mettez à jour `http.api.url`). Assurez-vous que le connecteur lit depuis `slack_output` et applique une transformation pour renommer `TEXT` -> `text`.
+ Assurez-vous que le connecteur lit depuis `slack_output` et applique une transformation pour renommer `TEXT` -> `text`.
 
 ## Topics
 * `youtube_videos` – entrée des producteurs (JSON)
