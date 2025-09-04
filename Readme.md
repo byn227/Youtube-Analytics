@@ -86,11 +86,15 @@ Pour tous les détails ksqlDB, consultez :
 Utilisez le SQL dans `ksql/create-stream-table.md`. Le topic source `youtube_videos` doit exister (les producteurs le créeront en envoyant des messages).
 
 Flux standard défini dans le document :
-* `youtube_videos` stream (JSON)
+* `youtube_videos` entrée des producteurs (JSON)
 * `youtube_analytics_changes` table (deux dernières mesures par vidéo)
 * `youtube_analytics_change_stream_base` stream (sur le changelog de la table)
 * `youtube_analytics_change_stream` stream dérivé avec texte formaté et filtres
 * `slack_output` stream (Avro) pour le sink Slack
+
+Flow des topics: 
+
+![alt text](/assets/flow.png)
 
 ## Exécuter les producteurs
 Avec la pile démarrée et `config/config.local` renseigné :
@@ -109,16 +113,11 @@ Avec la pile démarrée et `config/config.local` renseigné :
 
 Les deux scripts envoient des messages JSON vers le topic Kafka `youtube_videos` avec la clé = `video_id` (dans `list.py`).
 
-## Sink HTTP Slack via Kafka Connect
-La configuration de connecteur est inclus en bas de `ksql/create-stream-table.md`. Envoyez-le à Kafka Connect une fois que les topics/streams existent et que vous avez une URL de webhook Slack.
+## Configuration du connecteur
 
- Assurez-vous que le connecteur lit depuis `slack_output` et applique une transformation pour renommer `TEXT` -> `text`.
+La configuration du connecteur se trouve en bas du fichier [`ksql/create-stream-table.md`](ksql/create-stream-table.md). Une fois que les **topics/streams** sont créés et que vous disposez d’une **URL de webhook Slack**, envoyez cette configuration à **Kafka Connect**.  
 
-## Topics
-* `youtube_videos` – entrée des producteurs (JSON)
-* `youtube_analytics_changes` – changelog de la table (JSON)
-* `youtube_analytics_change_stream` – texte formaté/filtré (JSON)
-* `slack_output` – sink final (Avro)
+Le connecteur doit lire depuis le topic `slack_output` et appliquer une transformation pour renommer le champ `TEXT` en `text`.
 
 ## Résultat
 Sur Slack, on a un bot qui va envoyer des messages.
