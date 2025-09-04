@@ -1,21 +1,23 @@
 
 # Pipeline d'analytique YouTube
 
-![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
-![certifi](https://img.shields.io/badge/certifi-2025.8.3-brightgreen)
-![charset-normalizer](https://img.shields.io/badge/charset--normalizer-3.2.0-yellowgreen)
-![configparser](https://img.shields.io/badge/configparser-6.0.0-lightgrey)
-![kafka-python](https://img.shields.io/badge/kafka--python-2.2.15-orange)
-![requests](https://img.shields.io/badge/requests-2.32.4-blue)
-![urllib3](https://img.shields.io/badge/urllib3-2.5.0-yellow)
-![Docker](https://img.shields.io/badge/Docker-Ready-blue)
-![Docker Compose](https://img.shields.io/badge/Compose-3.8-lightblue)
-![Zookeeper](https://img.shields.io/badge/Zookeeper-7.6.0-green)
-![Kafka Broker](https://img.shields.io/badge/Kafka%20Broker-7.6.0-orange)
-![Schema Registry](https://img.shields.io/badge/Schema%20Registry-7.6.0-yellow)
-![Control Center](https://img.shields.io/badge/Control%20Center-7.6.0-red)
-![Kafka Connect](https://img.shields.io/badge/Kafka%20Connect-7.6.0-lightgrey)
-![ksqlDB](https://img.shields.io/badge/ksqlDB-7.6.0-purple)
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white)
+![certifi](https://img.shields.io/badge/certifi-2025.8.3-brightgreen?logo=letsencrypt&logoColor=white)
+![charset-normalizer](https://img.shields.io/badge/charset--normalizer-3.2.0-yellowgreen?logo=unicode&logoColor=white)
+![configparser](https://img.shields.io/badge/configparser-6.0.0-lightgrey?logo=gear&logoColor=black)
+![kafka-python](https://img.shields.io/badge/kafka--python-2.2.15-orange?logo=apachekafka&logoColor=white)
+![requests](https://img.shields.io/badge/requests-2.32.4-blue?logo=python&logoColor=white)
+![urllib3](https://img.shields.io/badge/urllib3-2.5.0-yellow?logo=python&logoColor=black)
+
+![Docker](https://img.shields.io/badge/Docker-Ready-blue?logo=docker&logoColor=white)
+![Docker Compose](https://img.shields.io/badge/Compose-3.8-lightblue?logo=docker&logoColor=white)
+
+![Zookeeper](https://img.shields.io/badge/Zookeeper-7.6.0-green?logo=apache&logoColor=white)
+![Kafka Broker](https://img.shields.io/badge/Kafka%20Broker-7.6.0-orange?logo=apachekafka&logoColor=white)
+![Schema Registry](https://img.shields.io/badge/Schema%20Registry-7.6.0-yellow?logo=apachekafka&logoColor=black)
+![Control Center](https://img.shields.io/badge/Control%20Center-7.6.0-red?logo=confluent&logoColor=white)
+![Kafka Connect](https://img.shields.io/badge/Kafka%20Connect-7.6.0-lightgrey?logo=apachekafka&logoColor=black)
+![ksqlDB](https://img.shields.io/badge/ksqlDB-7.6.0-purple?logo=confluent&logoColor=white)
 
 
 Diffusez les métriques des vidéos YouTube dans Kafka et traitez-les avec ksqlDB, avec en option l'envoi vers Slack via le connecteur HTTP de Kafka Connect.
