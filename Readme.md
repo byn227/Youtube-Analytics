@@ -8,10 +8,8 @@
 ![kafka-python](https://img.shields.io/badge/kafka--python-2.2.15-orange?logo=apachekafka&logoColor=white)
 ![requests](https://img.shields.io/badge/requests-2.32.4-blue?logo=python&logoColor=white)
 ![urllib3](https://img.shields.io/badge/urllib3-2.5.0-yellow?logo=python&logoColor=black)
-
 ![Docker](https://img.shields.io/badge/Docker-Ready-blue?logo=docker&logoColor=white)
 ![Docker Compose](https://img.shields.io/badge/Compose-3.8-lightblue?logo=docker&logoColor=white)
-
 ![Zookeeper](https://img.shields.io/badge/Zookeeper-7.6.0-green?logo=apache&logoColor=white)
 ![Kafka Broker](https://img.shields.io/badge/Kafka%20Broker-7.6.0-orange?logo=apachekafka&logoColor=white)
 ![Schema Registry](https://img.shields.io/badge/Schema%20Registry-7.6.0-yellow?logo=apachekafka&logoColor=black)
